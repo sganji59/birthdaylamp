@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body { font-size: 18px; padding: 10px; box-sizing: border-box; }
+    input, button { font-size: 18px; width: 90%; max-width: 300px; }
+    h1, h2, p { padding: 0 10px; word-wrap: break-word; }
+</style>
+
+    <meta charset="UTF-8">
+    <title>Burst Balloons</title>
+    <style>
+        body { background-color: #e3f2fd; text-align: center; font-family: Arial; overflow: hidden; }
+        .balloon { width: 50px; height: 70px; background: red; border-radius: 50% 50% 50% 50%; position: absolute; cursor: pointer; }
+    </style>
+</head>
+<body>
+<div style="margin-bottom: 20px;">
+    <span style="font-weight:bold;">🎯 Journey: </span> 
+    <span>Start</span> → 
+    <span>Emoji Match</span> → 
+    <span style="color:green;">Balloons</span> → 
+    <span>Result</span> → 
+    <span>Wish</span> → 
+    <span>Final</span>
+</div>
+<h3 id="greetUser"></h3>
+<h3 id="timer">⏳ 15</h3>
+    <h2>Burst 5 Balloons!</h2>
+    <div id="message"></div>
+    <script>
+    let count = 0;
+    document.getElementById("greetUser").innerText = `Hi ${localStorage.getItem("username") || 'Player'}, pop the balloons quickly!`;
+
+    let timeLeft = 20;
+    const timerEl = document.getElementById("timer");
+    const countdown = setInterval(() => {
+        timeLeft--;
+        timerEl.textContent = `⏳ ${timeLeft}`;
+        if (timeLeft <= 0) clearInterval(countdown);
+    }, 1000);
+
+    function createBalloon(i) {
+        const b = document.createElement("div");
+        b.className = "balloon";
+        b.style.left = Math.random() * 90 + "vw";
+        b.style.bottom = "0px";
+        b.style.background = "#" + Math.floor(Math.random()*16777215).toString(16);
+        b.onclick = () => {
+            b.remove();
+            count++;
+            if (count === 5) {
+                localStorage.setItem("result", "won");
+                window.location.href = "message.html";
+            }
+        };
+        document.body.appendChild(b);
+        let pos = 0;
+        const anim = setInterval(() => {
+            if (pos > window.innerHeight) {
+                clearInterval(anim);
+                b.remove();
+            } else {
+                pos += 2;
+                b.style.bottom = pos + "px";
+            }
+        }, 20);
+    }
+
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => createBalloon(i), i * 1500);
+    }
+
+    setTimeout(() => {
+        if (count < 5) {
+            localStorage.setItem("result", "failed");
+            window.location.href = "message.html";
+        }
+    }, 20000);
+</script>
+</body>
+</html>

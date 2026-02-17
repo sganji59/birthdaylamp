@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body { font-size: 18px; padding: 10px; box-sizing: border-box; }
+    input, button { font-size: 18px; width: 90%; max-width: 300px; }
+    h1, h2, p { padding: 0 10px; word-wrap: break-word; }
+</style>
+
+    <meta charset="UTF-8">
+    <title>Emoji Match Game</title>
+    <style>
+        body { text-align: center; font-family: Arial; background-color: #fff3e0; }
+        .emoji-grid { display: flex; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+        .emoji-grid div { font-size: 40px; margin: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+<div style="margin-bottom: 20px;">
+    <span style="font-weight:bold;">🎯 Journey: </span> 
+    <span>Start</span> → 
+    <span style="color:green;">Emoji Match</span> → 
+    <span>Balloons</span> → 
+    <span>Result</span> → 
+    <span>Wish</span> → 
+    <span>Final</span>
+</div>
+<h3 id="greetUser"></h3>
+    <h2>Match the emoji below!</h2>
+    <div id="targetEmoji" style="font-size: 60px;">😎</div>
+    <div class="emoji-grid" id="grid"></div>
+
+    <script>
+        const emojis = ["😎", "😂", "😍", "😡", "😴", "😇", "🥳"];
+        const target = emojis[Math.floor(Math.random() * emojis.length)];
+        document.getElementById("targetEmoji").textContent = target;
+
+        const grid = document.getElementById("grid");
+        emojis.sort(() => 0.5 - Math.random()).forEach(emoji => {
+            const div = document.createElement("div");
+            div.textContent = emoji;
+            div.onclick = () => {
+                if (emoji === target) {
+                    window.location.href = "balloons.html";
+                } else {
+                    alert("Wrong one! Try again.");
+                }
+            };
+            grid.appendChild(div);
+        });
+    document.getElementById("greetUser").innerText = `Hey ${localStorage.getItem("username") || 'there'}, ready to play?`;
+</script>
+</body>
+</html>

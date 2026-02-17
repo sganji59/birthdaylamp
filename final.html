@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body { font-size: 18px; padding: 10px; box-sizing: border-box; }
+    input, button { font-size: 18px; width: 90%; max-width: 300px; }
+    h1, h2, p { padding: 0 10px; word-wrap: break-word; }
+</style>
+
+    <meta charset="UTF-8">
+    <title>Final Surprise</title>
+    <style>
+        body { background-color: #ffebee; font-family: cursive; text-align: center; padding-top: 100px; }
+        h1 { font-size: 36px; color: #c2185b; }
+        p { font-size: 20px; margin-top: 20px; }
+    </style>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js">confetti({
+  particleCount: 200,
+  spread: 100,
+  origin: { y: 0.6 }
+});
+</script>
+</head>
+<body>
+<div style="margin-bottom: 20px;">
+    <span style="font-weight:bold;">🎯 Journey: </span> 
+    <span>Start</span> → 
+    <span>Emoji Match</span> → 
+    <span>Balloons</span> → 
+    <span>Result</span> → 
+    <span>Wish</span> → 
+    <span style="color:blue;">Final</span>
+</div>
+<audio controls autoplay loop>
+    <source src="new-music.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+</audio>
+    <h1>🎈 Wish you a very Happy Birthday <span id="name"></span> 🎈</h1>
+    <p>Your every wish come true and you will get success and happiness in your life.</p>
+    <p>Happy birthday to <span id="username"></span></p>
+    <h2>— By Santosh.G</h2>
+    <script>
+        const name = localStorage.getItem("username") || "Dear";
+        document.getElementById("name").textContent = name;
+        document.getElementById("username").textContent = name;
+    confetti({
+  particleCount: 200,
+  spread: 100,
+  origin: { y: 0.6 }
+});
+</script>
+</body>
+</html>

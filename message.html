@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body { font-size: 18px; padding: 10px; box-sizing: border-box; }
+    input, button { font-size: 18px; width: 90%; max-width: 300px; }
+    h1, h2, p { padding: 0 10px; word-wrap: break-word; }
+</style>
+
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <style>
+        body { text-align: center; font-family: Arial; background: #ffe0b2; padding-top: 100px; }
+    </style>
+</head>
+<body>
+<div style="margin-bottom: 20px;">
+    <span style="font-weight:bold;">🎯 Journey: </span> 
+    <span>Start</span> → 
+    <span>Emoji Match</span> → 
+    <span>Balloons</span> → 
+    <span style="color:green;">Result</span> → 
+    <span>Wish</span> → 
+    <span>Final</span>
+</div>
+<h3 id="greetUser"></h3>
+    <h1 id="msg"></h1>
+    <button onclick="window.location.href='wish.html'">Continue</button>
+    <script>
+        const result = localStorage.getItem("result");
+        if (result === "won") {
+            document.getElementById("msg").innerText = "🎉 Congratulations! Now you have to give treat to Santosh.G";
+        } else {
+            document.getElementById("msg").innerText = "😢 Sorry you failed. Now you have to give treat to Santosh.G";
+        }
+    document.getElementById("greetUser").innerText = `Well done ${localStorage.getItem("username") || 'there'}!`;
+</script>
+</body>
+</html>

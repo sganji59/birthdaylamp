@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Birthday Lamp</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #000;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Poppins", sans-serif;
+    transition: background 1s ease;
+  }
+
+  .bulb {
+    position: relative;
+    width: 80px;
+    height: 120px;
+    cursor: pointer;
+  }
+
+  .bulb::before {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 100px;
+    background: #553b2a;
+    top: -100px;
+    left: 37px;
+  }
+
+  .bulb-shape {
+    width: 80px;
+    height: 100px;
+    background: #222;
+    border-radius: 50% 50% 40% 40%;
+    position: relative;
+    box-shadow: 0 0 0 rgba(255,255,180,0);
+    transition: all 0.8s ease;
+  }
+
+  .bulb.on .bulb-shape {
+    background: radial-gradient(circle at 50% 60%, #fff7b0, #ffeb85, #ffda4a);
+    box-shadow: 0 0 50px 20px rgba(255,255,150,0.5);
+  }
+
+  /* Fireflies */
+  .firefly {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, #fff9c4, #ffeb3b, transparent);
+    border-radius: 50%;
+    opacity: 0;
+    animation: fly 10s linear infinite;
+  }
+
+  @keyframes fly {
+    0% { transform: translate(0,0) scale(0.8); opacity: 0; }
+    10% { opacity: 1; }
+    50% { transform: translate(100px,-150px) scale(1); }
+    100% { transform: translate(-150px,150px) scale(0.7); opacity: 0; }
+  }
+
+  .login {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+    text-align: center;
+    color: white;
+    margin-top: 40px;
+  }
+
+  .login.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  input {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    margin-top: 15px;
+    font-size: 1rem;
+  }
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: orange;
+    color: #fff;
+    margin-top: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background-color: #ffb400;
+  }
+
+  /* Switch Button */
+  .switch {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border-radius: 30px;
+    width: 140px;
+    height: 45px;
+    border: 3px solid #ccc;
+    overflow: hidden;
+    cursor: pointer;
+    margin-top: 40px;
+  }
+
+  .switch span {
+    flex: 1;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 8px 0;
+    transition: 0.3s;
+  }
+
+  .switch.on span:first-child {
+    background: #2ecc71;
+    color: #fff;
+  }
+
+  .switch.off span:last-child {
+    background: #e74c3c;
+    color: #fff;
+  }
+</style>
+</head>
+
+<body>
+  <!-- Lamp -->
+  <div class="bulb" id="bulb">
+    <div class="bulb-shape"></div>
+  </div>
+
+  <!-- Login -->
+  <div class="login" id="login">
+    <h2>🎂 Enter your Name</h2>
+    <input type="text" id="username" placeholder="Your Name" />
+    <button id="nextBtn">Next</button>
+  </div>
+
+  <!-- Switch -->
+  <div class="switch off" id="switchBtn">
+    <span>ON</span>
+    <span>OFF</span>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="birthday-music.mp3" type="audio/mp3" />
+  </audio>
+
+  <script>
+    const bulb = document.getElementById("bulb");
+    const switchBtn = document.getElementById("switchBtn");
+    const login = document.getElementById("login");
+    const nextBtn = document.getElementById("nextBtn");
+    const usernameInput = document.getElementById("username");
+    const bgMusic = document.getElementById("bgMusic");
+
+    // Create multiple fireflies
+    for (let i = 0; i < 20; i++) {
+      const firefly = document.createElement("div");
+      firefly.classList.add("firefly");
+      firefly.style.left = Math.random() * window.innerWidth + "px";
+      firefly.style.top = Math.random() * window.innerHeight + "px";
+      firefly.style.animationDelay = Math.random() * 10 + "s";
+      document.body.appendChild(firefly);
+    }
+
+    // Lamp switch logic
+    switchBtn.addEventListener("click", () => {
+      const fireflies = document.querySelectorAll(".firefly");
+
+      if (bulb.classList.contains("on")) {
+        bulb.classList.remove("on");
+        login.classList.remove("active");
+        switchBtn.classList.remove("on");
+        switchBtn.classList.add("off");
+        fireflies.forEach(f => f.style.opacity = 0);
+        bgMusic.pause();
+      } else {
+        bulb.classList.add("on");
+        login.classList.add("active");
+        switchBtn.classList.add("on");
+        switchBtn.classList.remove("off");
+        fireflies.forEach(f => f.style.opacity = 1);
+        bgMusic.play().catch(() => {
+          console.log("Autoplay blocked, will start after user interaction");
+        });
+      }
+    });
+
+    // Save name and go to next page
+    nextBtn.addEventListener("click", () => {
+      const name = usernameInput.value.trim();
+      if (name) {
+        localStorage.setItem("username", name);
+        window.location.href = "emoji.html";
+      } else {
+        alert("Please enter your name before proceeding!");
+      }
+    });
+  </script>
+</body>
+</html>
